@@ -1,3 +1,19 @@
+2013-01-07  Ondrej Vasik <ovasik@redhat.com>
+	* configure.in: fix build with automake 1.13+
+	* format/docbook/epub: create dir for the css lists
+
+2012-12-20  Ondrej Vasik <ovasik@redhat.com>
+	* configure.in: detect locations of sed/grep tools
+	* xmlto.in: handle detected sed and grep path variables
+	* format/fo/*: use variables for sed/grep instead of tool names
+
+2012-12-20  Kacper Perschke <kacper.perschke@gmail.com>
+	* format/docbook/epub: handle used css lists in epub format
+
+2012-09-02  Ondrej Vasik <ovasik@redhat.com>
+	* xmlto.in: recognize documented noextensions parameter in
+	  getopt
+
 2011-01-02  Ondrej Vasik <ovasik@redhat.com>
 	* xmlto.in: move searchpath computing into a function to
 	  prevent shell warning about local builtin used outside the

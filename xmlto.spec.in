@@ -97,6 +97,11 @@ rm -rf %{buildroot}
 %{_datadir}/xmlto/format/xhtml1/*
 
 %changelog
+* Sat Apr 04 2014 Ondrej Vasik <ovasik@redhat.com>
+- New version 0.0.26
+- fix build with automake 1.13+
+- fix warning in searchpath option
+
 * Fri Dec 02 2011 Ondrej Vasik <ovasik@redhat.com>
 - New version 0.0.25
 - fix the fop.extensions setting (based on fop version)
