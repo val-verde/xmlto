@@ -1,3 +1,6 @@
+2014-04-05  Ole Streicher <debian@liska.ath.cx>
+	* format/docbook/epub: fix mime type of epub file
+
 2013-01-07  Ondrej Vasik <ovasik@redhat.com>
 	* configure.in: fix build with automake 1.13+
 	* format/docbook/epub: create dir for the css lists
