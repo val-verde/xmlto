@@ -1,3 +1,6 @@
+2014-04-08  Knut Schönfels <knut.schoenfels@redknee.com>
+	* xmlto.in: use correctly exit code from xsltproc
+
 2014-04-05  Ole Streicher <debian@liska.ath.cx>
 	* format/docbook/epub: fix mime type of epub file
 
