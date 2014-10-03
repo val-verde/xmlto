@@ -1,3 +1,6 @@
+2014-10-03  Roy Marples <roy@marples.name>
+	* xmlto.in: eliminate unnecessary bashisms
+
 2014-04-08  Knut Schönfels <knut.schoenfels@redknee.com>
 	* xmlto.in: use correctly exit code from xsltproc
 
