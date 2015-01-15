@@ -1,3 +1,7 @@
+2015-01-15  Joost Pjotr Vermeer <jp@df5ea.net>
+	* xmlto.in: make source format detection less fragile and
+	  namespace prefix independent
+
 2014-10-03  Roy Marples <roy@marples.name>
 	* xmlto.in: eliminate unnecessary bashisms
 

@@ -437,17 +437,18 @@ esac
 
 
 # Decide what source format this is.  Default to DocBook.
-#rootel=$(head -n 4 "$INPUT_FILE" | tr -d '\n' | \
-#     sed -e 's/^<?[^?>]*?>//g' -e 's/^<![^>]*>//g' -e 's/^<\([^ ]*\).*$/\1/')
+#This was failing on Ubuntu 14.04, so changing detection a bit
+#rootel=$(echo "xpath *" | "$XMLLINT_PATH" --shell "$INPUT_FILE" 2> /dev/null | head -n 3 |$TAIL -n 1 | cut -f 4 -d " " )
 
-# Seems reasonable fix the file command and teach it to identify the DTD/Schema but this is faster to write:
-rootel=$(echo "xpath *" | "$XMLLINT_PATH" --shell "$INPUT_FILE" 2> /dev/null | head -n 3 |$TAIL -n 1 | cut -f 4 -d " " )
+rootel_xpath='concat("{", namespace-uri(/*), "}", local-name(/*))'
+rootel="$("$XMLLINT_PATH" --xpath "$rootel_xpath" "$INPUT_FILE" 2>/dev/null)"
+
 
 case $(echo $rootel) in
-  fo:root)
+  "{http://www.w3.org/1999/XSL/Format}root")
 	SOURCE_FORMAT="fo"
 	;;
-  html)
+  "{http://www.w3.org/1999/xhtml}html")
 	SOURCE_FORMAT="xhtml1"
 	;;
 esac
