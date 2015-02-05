@@ -100,6 +100,11 @@ static void end_attribute(void)
 
     if (attribute)
 	free(attribute);
+    if (!end->up)
+    {
+	fprintf(stderr,"xmlif: malformed end attribute!\n");
+	exit(1);
+    }
     end->suppressed = (ifsense == !!end->suppressed);
     for (up = end->up; up->up; up = up->up)
 	if (up->suppressed)
