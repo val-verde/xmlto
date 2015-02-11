@@ -1,3 +1,6 @@
+2015-02-11  Ondrej Vasik <ovasik@redhat.com>
+	* xmlif/xmlif.{c,l}: fix double free with invalid end attribute
+
 2015-02-05  Ondrej Vasik <ovasik@redhat.com>
 	* xmlif/xmlif.{c,l}: fix segfault with malformed end attribute
 

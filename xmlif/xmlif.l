@@ -100,6 +100,8 @@ static void end_attribute(void)
 
     if (attribute)
 	free(attribute);
+    attribute=NULL;
+
     if (!end->up)
     {
 	fprintf(stderr,"xmlif: malformed end attribute!\n");
