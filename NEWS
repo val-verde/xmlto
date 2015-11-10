@@ -1,5 +1,10 @@
 Xmlto news
 ----------
+0.0.27 (stable)
+  - remove several bashisms from scripts
+  - add new option --profile for preprocessing documents
+    with profiling stylesheet
+
 0.0.26 (stable)
   - --searchpath option no longer produces warning
     about local builtin used outside the function

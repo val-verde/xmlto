@@ -74,6 +74,7 @@
     <arg choice="opt"><option>--noclean</option></arg>
     <arg choice="opt"><option>--noautosize</option></arg>
     <arg choice="opt"><option>--noextensions</option></arg>
+    <arg choice="opt"><option>--profile</option></arg>
     <arg choice="opt"><option>--with-fop</option></arg>
     <arg choice="opt"><option>--with-dblatex</option></arg>
 	  <arg choice="req"><replaceable>format</replaceable></arg>
@@ -285,6 +286,13 @@
                This usually produces better results. If you for some reason don't want to use these parameters, just
                disable them using this option.
 	       </para>
+	    </listitem>
+          </varlistentry>
+
+          <varlistentry>
+	    <term><option>--profile</option></term>
+	    <listitem>
+              <para>Pre-process the XML document with the profiling stylesheet.</para>
 	    </listitem>
           </varlistentry>
 

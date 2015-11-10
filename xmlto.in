@@ -44,6 +44,7 @@ OPTIONs are:
   --noclean       temp files are not deleted automatically
                   (good for diagnostics)
   --noextensions  do not use passivetex/fop extensions
+  --profile       use profiling stylesheet
   --searchpath    colon-separated list of fallback directories
   --skip-validation
                   do not attempt to validate the input before processing
@@ -235,6 +236,7 @@ XSLTOPTS="$XSLTOPTS --xinclude"
 SKIP_VALIDATION=0
 BACKEND_EXTENSIONS=1
 NO_AUTOSIZE=0
+PROFILE=0
 
 #actual possibilities DEFAULT(XSL-FO/passivetex), FOP and DBLATEX
 USE_BACKEND=@BACKEND@
@@ -280,7 +282,7 @@ ZIP_PATH=@ZIP@
 
 # Process any options
 ARGS=$(${GETOPT} \
-	--longoptions=help,version,extensions,searchpath:,skip-validation,stringparam:,noclean,noautosize,noextensions,with-fop,with-dblatex \
+	--longoptions=help,version,extensions,searchpath:,skip-validation,stringparam:,noclean,noautosize,noextensions,profile,with-fop,with-dblatex \
 	-n xmlto -- x:m:o:p:v "$@")
 [ $? != 0 ] && { usage; exit 1; }
 eval set -- "$ARGS"
@@ -383,6 +385,10 @@ while [ "$#" -gt "0" ]; do
 	else
 		USE_BACKEND="DBLATEX"
 	fi
+	shift
+	;;
+  --profile)
+	PROFILE=1
 	shift
 	;;
   --)
@@ -489,6 +495,7 @@ export USE_BACKEND
 if [ -z "$STYLESHEET" ]
 then
   STYLESHEET="$(${BASH} "$FORMAT" stylesheet)" || exit 1
+  [ "$VERBOSE" -ge 1 ] && echo >&2 "Stylesheet: ${STYLESHEET}"
 fi
 
 # We might need to create a temporary stylesheet if there are
@@ -552,32 +559,58 @@ then
   fi
 fi
 
-if [ -z "${STYLESHEET}" ]
+if [ "$VERBOSE" -gt 2 ]
 then
-  # No stylesheet: no XSL-T processing to do.
-  XSLT_PROCESSED="$INPUT_FILE"
-else
+  XSLTOPTS="$XSLTOPTS -v"
+fi
+XSLTOPTS="${XSLTPARAMS} ${XSLTOPTS}"
 
+if [ "$PROFILE" -eq 1 ] || [ -n "${STYLESHEET}" ]
+then
   #do we have xsltproc tool?
   if ! type "$XSLTPROC_PATH" >/dev/null 2>&1
   then
     echo >&2 "@PACKAGE@: Can't continue, xsltproc tool not found or not executable."
     exit 3
   fi
+fi
 
-  [ "$VERBOSE" -ge 1 ] && echo >&2 "Stylesheet: ${STYLESHEET}"
-  XSLT_PROCESSED="$XSLT_PROCESSED_DIR/$(basename "${INPUT_FILE%.*}").proc"
+if [ "$PROFILE" -eq 1 ]
+then
+  PROF_PROCESSED="$XSLT_PROCESSED_DIR/$(basename "${INPUT_FILE%.*}").prof"
+  PROFILE_STYLESHEET="http://docbook.sourceforge.net/release/xsl/current/profiling/profile.xsl"
+  [ "$VERBOSE" -ge 1 ] && echo >&2 "Profiling stylesheet: ${PROFILE_STYLESHEET}"
 
-  if [ "$VERBOSE" -gt 2 ]
-  then
-    XSLTOPTS="$XSLTOPTS -v"
-  fi
-
-  XSLTOPTS="${XSLTPARAMS} ${XSLTOPTS}"
   [ "${VERBOSE}" -ge 1 ] && \
-   printf >&2 "${XSLTPROC_PATH} ${XSLTOPTS} ${SEARCHPATH_FORMATTED} \\\\\n -o \"${XSLT_PROCESSED}\" \\\\\n \"${STYLESHEET}\" \\\\\n \"${INPUT_FILE}\"\n"
+    printf >&2 "${XSLTPROC_PATH} ${XSLTOPTS} ${SEARCHPATH_FORMATTED} \\\\\n -o \"${PROF_PROCESSED}\" \\\\\n \"${PROFILE_STYLESHEET}\" \"${INPUT_FILE}\"\n"
   # eval is for SEARCHPATH_FORMATTED's proper expansion
-  eval "\"${XSLTPROC_PATH}\" ${XSLTOPTS} ${SEARCHPATH_FORMATTED} -o \"${XSLT_PROCESSED}\" \"${STYLESHEET}\" \"${INPUT_FILE}\""
+  eval "\"${XSLTPROC_PATH}\" ${XSLTOPTS} ${SEARCHPATH_FORMATTED} -o \"${PROF_PROCESSED}\" \"${PROFILE_STYLESHEET}\" \"${INPUT_FILE}\""
+
+  # remember the xsltproc exit code for later checks
+  xsltproc_status=$?
+
+  #xsltproc may return no file on empty input, touch it to have it for sure
+  touch "$PROF_PROCESSED"
+
+  # xsltproc returned an exit code - exit the script
+  [ ${xsltproc_status} -gt 0 ] && exit ${xsltproc_status}
+else
+  # No profile processing to do.
+  PROF_PROCESSED="$INPUT_FILE"
+fi
+
+if [ -z "${STYLESHEET}" ]
+then
+  # No stylesheet: no XSL-T processing to do.
+  XSLT_PROCESSED="$PROF_PROCESSED"
+else
+  [ "$VERBOSE" -ge 1 ] && echo >&2 "Stylesheet: ${STYLESHEET}"
+  XSLT_PROCESSED="$XSLT_PROCESSED_DIR/$(basename "${PROF_PROCESSED%.*}").proc"
+
+  [ "${VERBOSE}" -ge 1 ] && \
+   printf >&2 "${XSLTPROC_PATH} ${XSLTOPTS} ${SEARCHPATH_FORMATTED} \\\\\n -o \"${XSLT_PROCESSED}\" \\\\\n \"${STYLESHEET}\" \\\\\n \"${PROF_PROCESSED}\"\n"
+  # eval is for SEARCHPATH_FORMATTED's proper expansion
+  eval "\"${XSLTPROC_PATH}\" ${XSLTOPTS} ${SEARCHPATH_FORMATTED} -o \"${XSLT_PROCESSED}\" \"${STYLESHEET}\" \"${PROF_PROCESSED}\""
 
   # remember the xsltproc exit code for later checks
   xsltproc_status=$?
@@ -590,9 +623,9 @@ else
     XSLTOPTS="${XSLTOPTS} --catalogs"
     if [ "$VERBOSE" -ge 1 ]; then
 	echo >&2 "No XML Catalogs?  Trying again with --catalogs:"
-	printf >&2 "${XSLTPROC_PATH} ${XSLTOPTS} ${SEARCHPATH_FORMATTED}\\\\\n -o \"${XSLT_PROCESSED}\" \\\\\n \"${STYLESHEET}\" \\\\\n \"${INPUT_FILE}\"\n"
+	printf >&2 "${XSLTPROC_PATH} ${XSLTOPTS} ${SEARCHPATH_FORMATTED}\\\\\n -o \"${XSLT_PROCESSED}\" \\\\\n \"${STYLESHEET}\" \\\\\n \"${PROF_PROCESSED}\"\n"
     fi
-    eval "\"${XSLTPROC_PATH}\"" ${XSLTOPTS} ${SEARCHPATH_FORMATTED} -o "\"${XSLT_PROCESSED}\"" "\"${STYLESHEET}\"" "\"${INPUT_FILE}\""
+    eval "\"${XSLTPROC_PATH}\"" ${XSLTOPTS} ${SEARCHPATH_FORMATTED} -o "\"${XSLT_PROCESSED}\"" "\"${STYLESHEET}\"" "\"${PROF_PROCESSED}\""
     xsltproc_status=$?
   fi
 

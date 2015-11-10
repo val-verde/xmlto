@@ -1,3 +1,7 @@
+2015-11-10  Justin Turney <justin.turney@gmail.com>
+	* xmlto.in: add new option --profile for preprocessing documents
+	with profiling stylesheet
+
 2015-02-11  Ondrej Vasik <ovasik@redhat.com>
 	* xmlif/xmlif.{c,l}: fix double free with invalid end attribute
 

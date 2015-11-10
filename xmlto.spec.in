@@ -97,6 +97,13 @@ rm -rf %{buildroot}
 %{_datadir}/xmlto/format/xhtml1/*
 
 %changelog
+* Tue Nov 10 2015 Ondrej Vasik <ovasik@redhat.com>
+- New version 0.0.27
+- remove several bashisms in scripts
+- add new option --profile for preprocessing documents
+  with profiling stylesheet
+- fix several potential crashes in xmlif (found by static analysis)
+
 * Sat Apr 04 2014 Ondrej Vasik <ovasik@redhat.com>
 - New version 0.0.26
 - fix build with automake 1.13+
