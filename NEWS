@@ -4,6 +4,9 @@ Xmlto news
   - remove several bashisms from scripts
   - add new option --profile for preprocessing documents
     with profiling stylesheet
+  - fix several potential crashes in xmlif (found by static
+    analysis)
+
 
 0.0.26 (stable)
   - --searchpath option no longer produces warning

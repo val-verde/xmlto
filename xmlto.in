@@ -84,7 +84,7 @@ make_temp () {
 
   if eval $2='$(${MKTEMP} $dirflag "${TMPDIR:-/tmp}/${prefix}.XXXXXX")'
   then
-    CLEANFILES="$CLEANFILES $2"
+    CLEANFILES="$CLEANFILES ${!2}"
     return 0
   elif [ -z "$3" ]
   then
@@ -135,7 +135,7 @@ XSL_MODS=
 
 # List of files to remove after exit
 CLEANFILES=
-trap -- 'cd /; [ -z "$CLEANFILES" ] || rm -rf "$CLEANFILES"' EXIT
+trap -- 'cd /; [ -z "$CLEANFILES" ] || rm -rf $CLEANFILES' EXIT
 
 XSLTOPTS=
 SEARCHPATH=
