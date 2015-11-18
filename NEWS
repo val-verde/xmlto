@@ -1,5 +1,11 @@
 Xmlto news
 ----------
+0.0.28 (stable)
+  - fix broken temp files removal (introduced in 0.0.27)
+  - links detection changed to elinks (new links options
+    not compatible)
+
+
 0.0.27 (stable)
   - remove several bashisms from scripts
   - add new option --profile for preprocessing documents

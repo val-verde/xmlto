@@ -97,6 +97,11 @@ rm -rf %{buildroot}
 %{_datadir}/xmlto/format/xhtml1/*
 
 %changelog
+* Wed Nov 18 2015 Ondrej Vasik <ovasik@redhat.com>
+- New version 0.0.28
+- fix broken temp files removal
+- do not detect links browser as elinks
+
 * Tue Nov 10 2015 Ondrej Vasik <ovasik@redhat.com>
 - New version 0.0.27
 - remove several bashisms in scripts

@@ -1,3 +1,8 @@
+2915-11-18  Ondrej Vasik <ovasik@redhat.com>
+	* xmlto.in: fix broken temp files removal trap
+	* configure.in: do not detect links as elinks browser
+	as they are not compatible in recent versions
+
 2015-11-10  Justin Turney <justin.turney@gmail.com>
 	* xmlto.in: add new option --profile for preprocessing documents
 	with profiling stylesheet
