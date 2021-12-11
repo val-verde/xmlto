@@ -1,4 +1,4 @@
-AC_INIT(xmlto, 0.0.28)
+AC_INIT([xmlto],[0.0.28])
 AC_CONFIG_SRCDIR(xmlto.spec.in)
 AM_INIT_AUTOMAKE([dist-bzip2 subdir-objects 1.6])
 AC_CONFIG_HEADERS(config.h)
@@ -69,7 +69,7 @@ dnl
 
 AC_ARG_WITH(
         [backend],
-        AC_HELP_STRING(
+        AS_HELP_STRING(
                 [--with-backend=@<:@passivetex|fop|dblatex@:>@],
                 [The default processing backend @<:@default=DEFAULT@:>@]
         ),
@@ -127,7 +127,7 @@ dnl
 
 AC_ARG_WITH(
         [webbrowser],
-        AC_HELP_STRING(
+        AS_HELP_STRING(
                 [--with-webbrowser=@<:@w3m|lynx|links|any@:>@],
                 [The default processing backend @<:@default=w3m@:>@]
         ),
