@@ -239,7 +239,7 @@ WS		[ \t\n]*
 
 int yywrap() {exit(0);}
 
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     int i;
 
@@ -265,7 +265,7 @@ main(int argc, char *argv[])
 	    exit(1);
 	}
 
-    yylex();
+    return yylex();
 }
 
 /*
