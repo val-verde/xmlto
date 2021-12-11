@@ -237,7 +237,7 @@ WS		[ \t\n]*
 
 #include "config.h"
 
-int yywrap() {exit(0);};
+int yywrap() {exit(0);}
 
 main(int argc, char *argv[])
 {
