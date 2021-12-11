@@ -37,6 +37,7 @@
  */
 #include <string.h>
 #include <stdlib.h>
+#include <strings.h>
 
 #define TRUE	1
 #define FALSE	0
