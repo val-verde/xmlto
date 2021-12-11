@@ -43,7 +43,7 @@
 
 static char **selections;	/* selection tokens */
 static int nselections;		/* number of selections */
-static ifsense;			/* sense of last `if' or unless seen */
+static int ifsense;		/* sense of last `if' or unless seen */
 static char *attribute;		/* last attribute scanned */
 
 struct stack_t {
