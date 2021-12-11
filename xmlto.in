@@ -272,13 +272,13 @@ then
   USE_BACKEND=DEFAULT
 fi
 
-LINKS_PATH=@LINKS@
-W3M_PATH=@W3M@
-LYNX_PATH=@LYNX@
-GCP_PATH=@GCP@
-SED_PATH=@SED@
-GREP_PATH=@GREP@
-ZIP_PATH=@ZIP@
+LINKS_PATH=$(command -v elinks || command -v links)
+W3M_PATH=$(command -v w3m)
+LYNX_PATH=$(command -v lynx)
+GCP_PATH=$(command -v cp)
+SED_PATH=$(command -v sed)
+GREP_PATH=$(command -v grep)
+ZIP_PATH=$(command -v zip)
 
 # Process any options
 ARGS=$(${GETOPT} \
