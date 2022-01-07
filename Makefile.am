@@ -1,6 +1,6 @@
 bin_SCRIPTS = xmlto
 bin_PROGRAMS = xmlif/xmlif
-dist_man1_MANS = man/man1/xmlto.1 man/man1/xmlif.1
+dist_man1_MANS = # man/man1/xmlto.1 man/man1/xmlif.1
 
 xmlif_xmlif_SOURCES = xmlif/xmlif.l
 
